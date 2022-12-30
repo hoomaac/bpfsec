@@ -25,3 +25,5 @@ build-release
 **/*_skel.h
 
 .vagrant
+
+thirdparty/

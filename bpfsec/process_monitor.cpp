@@ -1,12 +1,12 @@
-#include "process_monitor.hpp"
+#include "process_monitor.h"
 
 extern "C"
 {
 #include <libbpf/libbpf.h>
+}
 
 #include <bpfkern/bpfsec_process_mon_skel.h>
 #include <bpfkern/common_types.h>
-}
 
 #include <iostream>
 #include <memory>

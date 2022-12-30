@@ -1,7 +1,7 @@
 {
     "editor.formatOnSave": true,
     "C_Cpp.autocompleteAddParentheses": true,
-    "C_Cpp.clang_format_style": "{ Language: Cpp, BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 120, BreakBeforeBraces: Allman, AccessModifierOffset: -4, SortIncludes: Never, AlignConsecutiveAssignments : true, PackConstructorInitializers: Never, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: Never}",
+    "C_Cpp.clang_format_style": "{ Language: Cpp, BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 120, BreakBeforeBraces: Allman, AccessModifierOffset: -4, SortIncludes: Never, AlignConsecutiveAssignments : true, PackConstructorInitializers: Never, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: Never, AllowShortLambdasOnASingleLine: None}",
     "files.associations": {
         "iostream": "cpp",
         "fstream": "cpp",
@@ -62,6 +62,22 @@
         "bpf_tracing.h": "c",
         "vmlinux.h": "c",
         "bpf_helpers.h": "c",
-        "bpf_core_read.h": "c"
+        "bpf_core_read.h": "c",
+        "any": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "optional": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "valarray": "cpp",
+        "variant": "cpp"
     },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/thirdparty/include/*",
+        "${workspaceFolder}/libbpf/include/*",
+        "${workspaceFolder}/*"
+    ],
 }

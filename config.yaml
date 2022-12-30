@@ -1,0 +1,11 @@
+process:
+  - pid: 1
+    parent_pid: 0
+    name: "init"
+    action: pass
+
+  - pid: 2
+    parent_pid: 1
+    name: "sample"
+    action: block
+

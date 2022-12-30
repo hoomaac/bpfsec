@@ -1,5 +1,5 @@
-#ifndef BPFSEC_PROCESS_MONITOR_HPP_
-#define BPFSEC_PROCESS_MONITOR_HPP_
+#ifndef BPFSEC_PROCESS_MONITOR_H_
+#define BPFSEC_PROCESS_MONITOR_H_
 
 #include <thread>
 #include <functional>
@@ -25,4 +25,4 @@ private:
 
 }  // namespace bpfsec
 
-#endif  // BPFSEC_PROCESS_MONITOR_HPP_
+#endif  // BPFSEC_PROCESS_MONITOR_H_
