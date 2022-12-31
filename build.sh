@@ -9,8 +9,11 @@ function prepare_preqs() {
 
     if [ $? -eq 1 ]; then
         echo "installing ${tools}"
-        sudo apt install ${tools}
+        sudo apt install ${tools} linux-tools-$(uname -r)
     fi
+
+    dpkg -l libbpf-dev > /dev/null
+    [ $? -eq 1 ] && sudo apt install libbpf-dev
 
     # create vmlinux header file using bpftool
     if [ ! -f ${BPFSEC_SRC_DIR}/vmlinux.h ]; then
@@ -37,7 +40,7 @@ function build() {
 
     prepare_preqs
 
-    cd ${BUILD_DIR} && cmake .. -DCMAKE_BUILD_TYPE=${build_type} && make
+    cd ${BUILD_DIR} && cmake -G Ninja -DCMAKE_BUILD_TYPE=${build_type} .. && ninja
 }
 
 function clean() {

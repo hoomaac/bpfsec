@@ -12,7 +12,7 @@ set(SOURCES
 find_library(LIBBPF libbpf.a PATHS ${CMAKE_BINARY_DIR}/libbpf)
 find_library(LIBELF libelf.a PATHS /usr/lib/x86_64-linux-gnu)
 find_library(LIBZ libz.a PATHS /usr/lib/x86_64-linux-gnu)
-find_library(LIBYAMLCPP libyaml-cpp.a PATHS ${CMAKE_BINARY_DIR}/yamlcpp)
+find_package(yaml-cpp CONFIG REQUIRED)
 
 if (NOT LIBELF)
     message(FATAL_ERROR "Libelf not found")
@@ -31,5 +31,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${LIBBPF}
     ${LIBELF}
     ${LIBZ}
-    ${LIBYAMLCPP}
+    yaml-cpp
     BpfProcessMonitor)

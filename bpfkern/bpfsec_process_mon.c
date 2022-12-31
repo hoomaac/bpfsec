@@ -22,7 +22,7 @@ struct
 } RingBuffer SEC(".maps");
 
 SEC("lsm/bprm_committed_creds")
-void BPF_PROG(bpfsec_process_mon, struct linux_binprm *bprm)
+void BPF_PROG(bpfsec_process_mon, struct linux_binprm* bprm)
 {
     long pid_tgid;
     struct ProcessInfo* process_info = NULL;
@@ -36,7 +36,7 @@ void BPF_PROG(bpfsec_process_mon, struct linux_binprm *bprm)
     process_info->pid  = pid_tgid;
     process_info->tgid = pid_tgid >> 32;
 
-    current_task             = (struct task_struct *)bpf_get_current_task();
+    current_task             = (struct task_struct*)bpf_get_current_task();
     process_info->parent_pid = BPF_CORE_READ(current_task, real_parent, pid);
 
     bpf_get_current_comm(&process_info->name, sizeof(process_info->name));

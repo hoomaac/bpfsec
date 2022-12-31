@@ -28,7 +28,7 @@ void Bpfsec::run()
 
     std::string boot_params   = read_boot_params();
     std::string kernel_config = read_kernel_config();
-    if (is_bpf_lsm_enabled(kernel_config, boot_params))
+    if (!is_bpf_lsm_enabled(kernel_config, boot_params))
     {
         std::cerr << "bpf is not enabled" << std::endl;
         return;
@@ -62,7 +62,7 @@ bool Bpfsec::is_bpf_lsm_enabled(const std::string &config, const std::string &cm
         return input.find("bpf") != std::string::npos;
     };
 
-    if (!config.empty() || !cmdline.empty())
+    if (config.empty() || cmdline.empty())
         return false;
 
     std::smatch kernel_config_matches;

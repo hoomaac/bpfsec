@@ -34,3 +34,5 @@ foreach(c_file ${SOURCES})
 endforeach()
 
 add_library(${PROJECT_NAME} OBJECT ${OBJECTS})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
