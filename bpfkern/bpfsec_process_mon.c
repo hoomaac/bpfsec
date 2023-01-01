@@ -18,7 +18,7 @@ enum
 struct
 {
     __uint(type, BPF_MAP_TYPE_RINGBUF);
-    __uint(max_entries, 1 << 12);
+    __uint(max_entries, 1 << 24);
 } RingBuffer SEC(".maps");
 
 SEC("lsm/bprm_committed_creds")

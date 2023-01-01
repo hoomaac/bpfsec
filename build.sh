@@ -3,6 +3,9 @@
 BUILD_DIR="build"
 BPFSEC_SRC_DIR="bpf"
 
+# dependencies array
+DEPS=('yaml-cpp')
+
 function prepare_preqs() {
     local tools=linux-tools-generic
     dpkg -l ${tools} > /dev/null
@@ -13,7 +16,11 @@ function prepare_preqs() {
     fi
 
     dpkg -l libbpf-dev > /dev/null
-    [ $? -eq 1 ] && sudo apt install libbpf-dev
+    [ $? -eq 1 ] && sudo apt install libbpf-dev || true
+
+    # check for ninja
+    dpkg -l ninja-build > /dev/null
+    [ $? -eq 1 ] && sudo apt install ninja-build || true
 
     # create vmlinux header file using bpftool
     if [ ! -f ${BPFSEC_SRC_DIR}/vmlinux.h ]; then
@@ -23,22 +30,36 @@ function prepare_preqs() {
     make -C libbpf/src BUILD_STATIC_ONLY=1 OBJDIR=$(pwd)/${BUILD_DIR}/libbpf
 
     local libbpf_include_dir="libbpf/include/libbpf"
-    [ ! -d ${libbpf_include_dir} ] && mkdir ${libbpf_include_dir}; true;
+    [ ! -d ${libbpf_include_dir} ] && mkdir ${libbpf_include_dir} || true
     cp libbpf/src/*.h ${libbpf_include_dir} 
+
+    # install each dependency
+    for dep in ${DEPS[@]}; do
+        vcpkg install ${dep}
+    done
 }
 
 function build() {
     local build_type=Debug
+    local is_rebuild=false
     if [ "$1" == "debug" ] || [ "$1" == "Debug" ]; then
-        [ ! -d build-debug ] && mkdir build-debug || true;
+        if [ ! -d build-debug ]; then
+            mkdir build-debug
+            is_rebuild=true
+        fi
         BUILD_DIR=${BUILD_DIR}-debug
     else
-        [ ! -d build-release ] && mkdir build-release || true;
+        if [ ! -d build-release ]; then
+            mkdir build-release
+            is_rebuild=true
+        fi
         BUILD_DIR=${BUILD_DIR}-release
         build_type=release
     fi
 
-    prepare_preqs
+    if [ "${is_rebuild}" = true ]; then
+        prepare_preqs
+    fi
 
     cd ${BUILD_DIR} && cmake -G Ninja -DCMAKE_BUILD_TYPE=${build_type} .. && ninja
 }

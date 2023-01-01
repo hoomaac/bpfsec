@@ -37,7 +37,6 @@ ProcessMonitor::ProcessMonitor()
 
 ProcessMonitor::~ProcessMonitor()
 {
-    m_stop = true;
     if (m_thread.joinable())
         m_thread.join();
 }
@@ -75,6 +74,8 @@ void ProcessMonitor::start()
         return;
     }
 
+    std::cout << "Name" << '\t' << "PID" << '\t' << "PPID" << '\t' << "TGID" << std::endl;
+
     while (!m_stop)
     {
         int ret = ring_buffer__poll(ring_buf.get(), RING_BUFFER_TIME_OUT);
@@ -89,8 +90,8 @@ void ProcessMonitor::start()
 int ProcessMonitor::event_handler(void* contex, void* data, size_t size)
 {
     ProcessInfo* process_info = reinterpret_cast<ProcessInfo*>(data);
-    std::cout << process_info->name << "\t" << process_info->pid << "\t" << process_info->parent_pid << "\t"
-              << process_info->tgid;
+    std::cout << process_info->name << '\t' << process_info->pid << '\t' << process_info->parent_pid << '\t'
+              << process_info->tgid << std::endl;
 
     return 0;
 }
